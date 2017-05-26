@@ -2,8 +2,7 @@
   <section>
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
-      <input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
-      <h1 class="greeting">Good Morning, {{name}}</h1>
+      <h1 class="greeting">Good Morning, {{name}}</h1><input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
     </div>
   </section>
 </template>
@@ -35,14 +34,18 @@ export default {
       this.updateClock();
       window.setInterval(this.updateClock, 1000);
     },
+    //form logic
     submitName: function(name, event){
       if(event.keyCode == 13){
         console.log(name);
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
-        greeting.style.display = 'block';
-        clock.style.display = 'block';
+        greeting.style.opacity = '1';
+        greeting.style.visibility = 'visible';
+        clock.style.opacity = '1';
+        clock.style.visibility = 'visible';
+        
         input.style.display = 'none';
         localStorage.name = name;
         this.name = localStorage.name;
@@ -87,10 +90,14 @@ export default {
     font-weight: bolder;
   }
   .clock{
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 4s;
   }
   .greeting{
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 4s;
     font-size: 50px;
     font-weight: lighter;
   }
