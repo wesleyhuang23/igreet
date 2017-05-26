@@ -1,9 +1,9 @@
 <template>
   <section>
     <div>
-      <span>{{hours}}:{{min}}</span><br>
-      <input type="text" placeholder="YOUR NAME"/>
-      <h1>Good Morning, </h1>
+      <span class="clock">{{hours}}:{{min}}</span><br>
+      <input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
+      <h1 class="greeting">Good Morning, </h1>
     </div>
   </section>
 </template>
@@ -16,9 +16,11 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       hours: '',
       min: '',
+      name: '',
     }
   },
   methods: {
+    //clock logic
     updateClock: function() {
       let now = new Date()
       let hours = now.getHours();
@@ -29,6 +31,11 @@ export default {
     initClock: function(){
       this.updateClock();
       window.setInterval(this.updateClock, 1000);
+    },
+    submitName: function(name, event){
+      if(event.keyCode == 13){
+        console.log(name);
+      }
     }
   },
   created: function(){
@@ -67,5 +74,6 @@ export default {
     color: white;
     font-size: 150px;
     font-weight: bolder;
+
   }
 </style>
