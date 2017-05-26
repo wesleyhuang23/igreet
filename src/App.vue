@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div>
+    <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
       <input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
       <h1 class="greeting">Good Morning, {{name}}</h1>
@@ -13,7 +13,6 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       hours: '',
       min: '',
       name: '',
@@ -26,7 +25,11 @@ export default {
       let hours = now.getHours();
       let min = now.getMinutes();
       this.hours = hours - 12;
-      this.min = min;
+      if(min < 10){
+        this.min = '0' + min;
+      } else {
+        this.min = min;
+      }
     },
     initClock: function(){
       this.updateClock();
@@ -78,7 +81,7 @@ export default {
     color: white;
     outline: none;
   }
-  span{
+  .content > span{
     color: white;
     font-size: 150px;
     font-weight: bolder;
