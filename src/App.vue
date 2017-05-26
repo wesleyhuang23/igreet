@@ -23,8 +23,8 @@ export default {
       let now = new Date()
       let hours = now.getHours();
       let min = now.getMinutes();
-      this.hours = hours
-      this.min = min
+      this.hours = hours - 12;
+      this.min = min;
     },
     initClock: function(){
       this.updateClock();
