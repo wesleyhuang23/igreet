@@ -2,7 +2,7 @@
   <section>
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
-      <h1 class="greeting">Good Morning, {{name}}</h1><input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
+      <h1 class="greeting">Good Morning, </h1><input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
     </div>
   </section>
 </template>
@@ -38,17 +38,26 @@ export default {
     submitName: function(name, event){
       if(event.keyCode == 13){
         console.log(name);
+        //generate space for the name to float over
+        for(let i = 0; i < name.length; i++){
+          this.name = this.name + ' ';
+        }
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
+        input.style.transition = 'all 3s';
+        input.style.borderBottom = 'none';
+        input.style.left = '575px';
+        input.style.position = 'absolute';
+        input.style.zIndex = '2';
+        input.style.transform = 'translateX(150px)';
+        
         greeting.style.opacity = '1';
         greeting.style.visibility = 'visible';
+        greeting.style.position = 'relative';
+
         clock.style.opacity = '1';
-        clock.style.visibility = 'visible';
-        
-        input.style.display = 'none';
         localStorage.name = name;
-        this.name = localStorage.name;
       }
     }
   },
@@ -68,11 +77,12 @@ export default {
     height: 100vh;
     width: 100vw;
     display: flex;
-    justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
   h1{
     color: white;
+    display: inline-block;
   }
   input{
     font-size: 50px;
@@ -84,21 +94,29 @@ export default {
     color: white;
     outline: none;
   }
-  .content > span{
-    color: white;
-    font-size: 150px;
-    font-weight: bolder;
+  .content{
+    position: relative;
+    // border: 1px solid green;
+    width: 100vw;
+    text-align: center;
+    
+    span{
+      color: white;
+      font-size: 150px;
+      font-weight: bolder;
+    }
   }
   .clock{
-    visibility: hidden;
     opacity: 0;
-    transition: opacity 4s;
+    transition: opacity 4s ease-in-out 2s;
   }
   .greeting{
     visibility: hidden;
+    position: absolute;
     opacity: 0;
-    transition: opacity 4s;
+    transition: opacity 4s ease-in-out 2s;
     font-size: 50px;
     font-weight: lighter;
+    z-index: 1;
   }
 </style>
