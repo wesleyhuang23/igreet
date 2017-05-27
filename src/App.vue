@@ -1,5 +1,9 @@
 <template>
   <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
+    <div class="weather">
+      <p>{{weather.temp}}</p>
+      <p>{{weather.city | uppercase }}</p>
+    </div>
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
       <h1 class="greeting">{{greeting}}, <span id="name">{{name}}</span></h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
@@ -18,6 +22,10 @@ export default {
       spaces: '',
       greeting: 'Good Morning',
       background: localStorage.img,
+      weather: {
+        city: '',
+        temp: '',
+      }
     }
   },
   methods: {
@@ -146,7 +154,14 @@ export default {
       newThis.$http.get(`http://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
         console.log(JSON.parse(res.bodyText));
         let weather = JSON.parse(res.bodyText);
+        this.weather.city = weather.name;
+        this.weather.temp = Math.floor(1.8 * (weather.main.temp - 273) + 32);
       })
+    }
+  },
+  filters: {
+    uppercase: function(value){
+      return value.toUpperCase();
     }
   },
   created: function(){
@@ -219,5 +234,24 @@ export default {
     font-size: 50px;
     font-weight: lighter;
     z-index: 1;
+  }
+  .weather{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+
+    p:last-child{
+      font-size: 12px;
+      color: #F2F2F2;
+      opacity: .5;
+    }
+
+    p:first-child{
+      text-align: right;
+      font-size: 25px;
+      font-weight: bolder;
+      letter-spacing: 2px;
+    }
   }
 </style>
