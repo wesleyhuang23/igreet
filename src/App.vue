@@ -2,7 +2,7 @@
   <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
-      <h1 class="greeting">{{greeting}}, </h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)" :value="name"/>
+      <h1 class="greeting">{{greeting}}, <span id="name">{{name}}</span></h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
     </div>
   </section>
 </template>
@@ -26,7 +26,6 @@ export default {
       let now = new Date()
       let hours = now.getHours();
       let min = now.getMinutes();
-      console.log(this.name);
       if(hours <= 12 && hours >= 0){
         this.hours = hours;
       } else {
@@ -48,6 +47,7 @@ export default {
       if(hours === 23){
         this.getImage();
       }
+      
     },
     initClock: function(){
       this.updateClock();
@@ -56,9 +56,12 @@ export default {
     //form logic
     submitName: function(name, event){
       if(event.keyCode == 13){
+        console.log(name);
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
+        let nameTag = document.getElementById('name');
+        nameTag.style.display = 'none';
         input.style.width = (name.length * 28) + 'px';
         input.style.transition = 'border-bottom 3s ease-in-out 1s';
         input.style.borderBottom = '1px solid rgba(0,0,0,0)';
@@ -76,8 +79,11 @@ export default {
           let greeting = document.getElementsByClassName('greeting')[0];
           let clock = document.getElementsByClassName('clock')[0];
           let input = document.getElementsByTagName('input')[0];
-          input.style.width = (name.length * 28) + 'px';
-          input.style.borderBottom = '1px solid rgba(0,0,0,0)';
+          let nameTag = document.getElementById('name');
+          nameTag.style.display = 'inline-block';
+          nameTag.style.fontSize = '55px';
+          nameTag.style.fontWeight = 'lighter';
+          input.style.display = 'none';
           greeting.style.opacity = '1';
           greeting.style.visibility = 'visible';
           greeting.style.position = 'relative';
@@ -86,7 +92,7 @@ export default {
         
     },
     setName: function(){
-      this.name = localStorage.name;
+      this.name = localStorage.name
     },
     getImage: function(){
       this.$http.get('https://api.unsplash.com/photos/random/?client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
@@ -101,6 +107,7 @@ export default {
     console.log(localStorage);
     if(localStorage.name){
       this.namePresent();
+      this.setName();
     }
     if(!localStorage.img){
       this.getImage()
@@ -126,10 +133,6 @@ export default {
   h1{
     color: white;
     display: inline-block;
-
-    span{
-      display: none;
-    }
   }
   input{
     font-size: 50px;
