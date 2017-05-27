@@ -26,6 +26,10 @@ export default {
       let now = new Date()
       let hours = now.getHours();
       let min = now.getMinutes();
+      let day = now.getDay();
+      let year = now.getFullYear();
+      localStorage.day = day;
+      localStorage.year = year;
       if(hours <= 12 && hours >= 0){
         this.hours = hours;
       } else {
@@ -39,15 +43,11 @@ export default {
       //greeting logic throughout the day
       if(hours > 0 && hours < 12){
         this.greeting = 'Good Morning';
-      } else if(hours > 12 && hours < 18){
+      } else if(hours >= 12 && hours <= 18 && min >= 0){
         this.greeting = 'Good Afternoon';
-      } else if(hours > 18 && hours < 24){
+      } else if(hours >= 18 && hours <= 24 && min >= 0){
         this.greeting = 'Good Evening';
       }
-      if(hours === 23){
-        this.getImage();
-      }
-      
     },
     initClock: function(){
       this.updateClock();
@@ -94,16 +94,27 @@ export default {
     setName: function(){
       this.name = localStorage.name
     },
+    dateCheck: function(){
+      let now = new Date()
+      let day = now.getDate();
+      let year = now.getFullYear();
+      if(day !== localStorage.day || year !== localStorage.year){
+        this.getImage();
+      }
+    },
     getImage: function(){
       this.$http.get('https://api.unsplash.com/photos/random/?client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
         this.background = res.body.urls.full;
         localStorage.img = res.body.urls.full;
+        localStorage.day = new Date().getDate();
+        localStorage.year = new Date().getFullYear();
       })
     }
   },
   created: function(){
     this.initClock();
+    this.dateCheck();
     console.log(localStorage);
     if(localStorage.name){
       this.namePresent();
