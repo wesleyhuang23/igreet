@@ -2,7 +2,7 @@
   <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
-      <h1 class="greeting">{{greeting}}, </h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
+      <h1 class="greeting">{{greeting}}, </h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)" :value="name"/>
     </div>
   </section>
 </template>
@@ -26,7 +26,12 @@ export default {
       let now = new Date()
       let hours = now.getHours();
       let min = now.getMinutes();
-      this.hours = hours - 12;
+      console.log(this.name);
+      if(hours <= 12 && hours >= 0){
+        this.hours = hours;
+      } else {
+        this.house = hours - 12;
+      }
       if(min < 10){
         this.min = '0' + min;
       } else {
@@ -77,9 +82,11 @@ export default {
           greeting.style.visibility = 'visible';
           greeting.style.position = 'relative';
           clock.style.opacity = '1';
-          
         }, 1)
-        this.name = localStorage.name;
+        
+    },
+    setName: function(){
+      this.name = localStorage.name;
     },
     getImage: function(){
       this.$http.get('https://api.unsplash.com/photos/random/?client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
@@ -119,7 +126,6 @@ export default {
   h1{
     color: white;
     display: inline-block;
-    text-shadow: 5px 5px 10px black;
 
     span{
       display: none;
@@ -135,7 +141,6 @@ export default {
     text-align: center;
     color: white;
     outline: none;
-    text-shadow: 5px 5px 30px black;
   }
   .content{
     position: relative;
@@ -154,7 +159,6 @@ export default {
   }
   .clock{
     opacity: 0;
-    text-shadow: 5px 5px 50px black;
   }
   .greeting{
     visibility: hidden;
