@@ -1,17 +1,26 @@
 <template>
   <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
-    <div class="weather">
-      <p v-on:click="unitChange()">{{weather.temp}}</p>
+    <!--weather box top right-->
+    <div class="weather" :alt="this.weather.condition">
+      <p v-on:click="unitChange()">{{weather.temp}}<span>{{weather.degree}}</span></p>
       <p>{{weather.city | uppercase }}</p>
     </div>
+    <!--main center content, clock and greeting-->
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
       <h1 class="greeting">{{greeting}}, <span id="name">{{name}}</span></h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
+    </div>
+    <!--quote on the bottom-->
+    <div class="quote">
+      <p>{{quote.quote}}</p>
+      <p>{{quote.author}}</p>
     </div>
   </section>
 </template>
 
 <script>
+import $ from 'jquery'
+
 export default {
   name: 'app',
   data () {
@@ -26,6 +35,12 @@ export default {
         city: '',
         temp: '',
         unit: 'f',
+        condition: '',
+        degree: '°'
+      },
+      quote: {
+        author: '',
+        quote: '',
       }
     }
   },
@@ -157,16 +172,33 @@ export default {
         let weather = JSON.parse(res.bodyText);
         this.weather.city = weather.name;
         this.weather.temp = Math.floor(1.8 * (weather.main.temp - 273) + 32);
+        this.weather.condition = weather.weather[0].description;
+        console.log(this.weather.condition);
       })
     },
     unitChange: function(){
       if(this.weather.unit === 'f'){
-        this.weather.temp = (5/9) * (this.weather.temp - 32);
+        this.weather.temp = Math.floor((5/9) * (this.weather.temp - 32));
         this.weather.unit = 'c';
       } else if (this.weather.unit === 'c'){
-        this.weather.temp = (this.weather.temp * (9/5)) + 32;
+        this.weather.temp = Math.floor((this.weather.temp * (9/5)) + 32);
         this.weather.unit = 'f';
       }
+    },
+    getQuotes: function(){
+      // this.$http.jsonp('http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en').then((res) => {
+      //   let quote = JSON.parse(res.bodyText);
+      //   console.log(JSON.parse(res.bodyText));
+      // })
+      // Using YQL and JSONP
+      $.ajax({
+          url: "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en",
+          jsonp: "callback",
+          dataType: "jsonp",
+          success: function( response ) {
+              console.log( "iuahsdiuahsd", response ); // server response
+          }
+      });
     }
   },
   filters: {
@@ -186,6 +218,7 @@ export default {
     }
     this.dateCheck();
     this.getLocation();
+    this.getQuotes();
   }
 }
 </script>
@@ -227,8 +260,8 @@ export default {
     
     span{
       color: white;
-      font-size: 150px;
-      font-weight: bolder;
+      font-size: 200px;
+      text-shadow: 3px 3px 30px black;
     }
     a{
       opacity: 0;
@@ -252,7 +285,7 @@ export default {
     color: white;
 
     p:last-child{
-      font-size: 12px;
+      font-size: 10px;
       color: #F2F2F2;
       opacity: .5;
     }
@@ -261,7 +294,12 @@ export default {
       text-align: right;
       font-size: 25px;
       font-weight: bolder;
-      letter-spacing: 2px;
     }
+  }
+  .quote{
+    color: white;
+    text-align: center;
+    position: absolute;
+    width: 100%;
   }
 </style>
