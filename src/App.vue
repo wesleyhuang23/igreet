@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
       <h1 class="greeting">{{greeting}}, </h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
@@ -16,7 +16,8 @@ export default {
       min: '',
       name: '',
       spaces: '',
-      greeting: 'Good Morning'
+      greeting: 'Good Morning',
+      background: '',
     }
   },
   methods: {
@@ -73,8 +74,15 @@ export default {
           greeting.style.visibility = 'visible';
           greeting.style.position = 'relative';
           clock.style.opacity = '1';
+          
         }, 1)
         this.name = localStorage.name;
+    },
+    getImage: function(){
+      this.$http.get('https://api.unsplash.com/photos/random/?client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
+        console.log(res.body);
+        this.background = res.body.urls.full;
+      })
     }
   },
   created: function(){
@@ -83,6 +91,7 @@ export default {
     if(localStorage.name){
       this.namePresent();
     }
+    this.getImage()
   }
 }
 </script>
@@ -99,10 +108,12 @@ export default {
     display: flex;
     align-items: center;
     overflow: hidden;
+    background-size: cover;
   }
   h1{
     color: white;
     display: inline-block;
+    text-shadow: 5px 5px 10px black;
 
     span{
       display: none;
@@ -118,6 +129,7 @@ export default {
     text-align: center;
     color: white;
     outline: none;
+    text-shadow: 5px 5px 30px black;
   }
   .content{
     position: relative;
@@ -136,6 +148,7 @@ export default {
   }
   .clock{
     opacity: 0;
+    text-shadow: 5px 5px 50px black;
   }
   .greeting{
     visibility: hidden;
