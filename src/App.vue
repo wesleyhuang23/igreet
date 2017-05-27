@@ -2,7 +2,7 @@
   <section>
     <div class="content">
       <span class="clock">{{hours}}:{{min}}</span><br>
-      <h1 class="greeting">Good Morning, </h1><input type="text" placeholder="YOUR NAME" v-model="name" v-on:keyup="submitName(name, $event)"/>
+      <h1 class="greeting">{{greeting}}, </h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
     </div>
   </section>
 </template>
@@ -16,6 +16,7 @@ export default {
       min: '',
       name: '',
       spaces: '',
+      greeting: 'Good Morning'
     }
   },
   methods: {
@@ -29,6 +30,14 @@ export default {
         this.min = '0' + min;
       } else {
         this.min = min;
+      }
+      //greeting logic throughout the day
+      if(hours > 0 && hours < 12){
+        this.greeting = 'Good Morning';
+      } else if(hours > 12 && hours < 18){
+        this.greeting = 'Good Afternoon';
+      } else if(hours > 18 && hours < 24){
+        this.greeting = 'Good Evening';
       }
     },
     initClock: function(){
@@ -44,24 +53,20 @@ export default {
         input.style.width = (name.length * 28) + 'px';
         input.style.transition = 'border-bottom 3s ease-in-out 1s';
         input.style.borderBottom = '1px solid rgba(0,0,0,0)';
-        
         greeting.style.transition = 'opacity 4s ease-in-out 1s';
         greeting.style.opacity = '1';
         greeting.style.visibility = 'visible';
         greeting.style.position = 'relative';
-
         clock.style.transition = 'opacity 4s ease-in-out 1s';
         clock.style.opacity = '1';
         localStorage.name = name;
       }
     },
     namePresent: function(){
-        
         setTimeout(function(){
           let greeting = document.getElementsByClassName('greeting')[0];
           let clock = document.getElementsByClassName('clock')[0];
           let input = document.getElementsByTagName('input')[0];
-          
           input.style.width = (name.length * 28) + 'px';
           input.style.borderBottom = '1px solid rgba(0,0,0,0)';
           greeting.style.opacity = '1';
