@@ -28,7 +28,7 @@ export default {
       let min = now.getMinutes();
       let day = now.getDay();
       let year = now.getFullYear();
-      console.log(hours);
+      // console.log(hours);
       localStorage.day = day;
       localStorage.year = year;
       if(hours <= 12 && hours >= 0){
@@ -116,16 +116,18 @@ export default {
       })
     },
     getLocation: function(){
+      var thisPointer = this;
       function showLocation(position){
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-        console.log(latitude, longitude);
+
+        thisPointer.getWeather(latitude, longitude, thisPointer)
       }
       function errorHandler(err) {
         if(err.code == 1) {
             alert("Error: Access is denied!");
         }
-        else if( err.code == 2) {
+        else if(err.code == 2) {
             alert("Error: Position is unavailable!");
         }
       }
@@ -138,6 +140,13 @@ export default {
         }
       }
       getLocation();
+    },
+    getWeather: function(lat, long, newThis){
+      console.log(lat, long)
+      newThis.$http.get(`http://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
+        console.log(JSON.parse(res.bodyText));
+        let weather = JSON.parse(res.bodyText);
+      })
     }
   },
   created: function(){
