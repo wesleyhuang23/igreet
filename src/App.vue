@@ -17,7 +17,7 @@ export default {
       name: '',
       spaces: '',
       greeting: 'Good Morning',
-      background: '',
+      background: localStorage.img,
     }
   },
   methods: {
@@ -39,6 +39,9 @@ export default {
         this.greeting = 'Good Afternoon';
       } else if(hours > 18 && hours < 24){
         this.greeting = 'Good Evening';
+      }
+      if(hours === 23){
+        this.getImage();
       }
     },
     initClock: function(){
@@ -82,6 +85,7 @@ export default {
       this.$http.get('https://api.unsplash.com/photos/random/?client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
         this.background = res.body.urls.full;
+        localStorage.img = res.body.urls.full;
       })
     }
   },
@@ -91,7 +95,9 @@ export default {
     if(localStorage.name){
       this.namePresent();
     }
-    this.getImage()
+    if(!localStorage.img){
+      this.getImage()
+    }
   }
 }
 </script>
