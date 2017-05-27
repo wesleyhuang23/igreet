@@ -15,6 +15,7 @@ export default {
       hours: '',
       min: '',
       name: '',
+      spaces: '',
     }
   },
   methods: {
@@ -37,20 +38,18 @@ export default {
     //form logic
     submitName: function(name, event){
       if(event.keyCode == 13){
-        console.log(name);
-        //generate space for the name to float over
         for(let i = 0; i < name.length; i++){
-          this.name = this.name + ' ';
+          this.spaces += 'o';
         }
+        console.log(this.spaces);
+        console.log(document.getElementsByClassName('greeting'))
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
         input.style.transition = 'all 3s';
         input.style.borderBottom = 'none';
-        input.style.left = '575px';
-        input.style.position = 'absolute';
         input.style.zIndex = '2';
-        input.style.transform = 'translateX(150px)';
+        input.style.width = (name.length * 28) + 'px';
         
         greeting.style.opacity = '1';
         greeting.style.visibility = 'visible';
@@ -83,9 +82,14 @@ export default {
   h1{
     color: white;
     display: inline-block;
+
+    span{
+      display: none;
+    }
   }
   input{
     font-size: 50px;
+    font-weight: lighter;
     width: 300px;
     border: none;
     border-bottom: 2px solid white;
@@ -104,6 +108,9 @@ export default {
       color: white;
       font-size: 150px;
       font-weight: bolder;
+    }
+    a{
+      opacity: 0;
     }
   }
   .clock{
