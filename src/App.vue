@@ -38,30 +38,46 @@ export default {
     //form logic
     submitName: function(name, event){
       if(event.keyCode == 13){
-        for(let i = 0; i < name.length; i++){
-          this.spaces += 'o';
-        }
-        console.log(this.spaces);
-        console.log(document.getElementsByClassName('greeting'))
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
         input.style.width = (name.length * 28) + 'px';
         input.style.transition = 'border-bottom 3s ease-in-out 1s';
         input.style.borderBottom = '1px solid rgba(0,0,0,0)';
-        input.style.zIndex = '2';
         
+        greeting.style.transition = 'opacity 4s ease-in-out 1s';
         greeting.style.opacity = '1';
         greeting.style.visibility = 'visible';
         greeting.style.position = 'relative';
 
+        clock.style.transition = 'opacity 4s ease-in-out 1s';
         clock.style.opacity = '1';
         localStorage.name = name;
       }
+    },
+    namePresent: function(){
+        
+        setTimeout(function(){
+          let greeting = document.getElementsByClassName('greeting')[0];
+          let clock = document.getElementsByClassName('clock')[0];
+          let input = document.getElementsByTagName('input')[0];
+          
+          input.style.width = (name.length * 28) + 'px';
+          input.style.borderBottom = '1px solid rgba(0,0,0,0)';
+          greeting.style.opacity = '1';
+          greeting.style.visibility = 'visible';
+          greeting.style.position = 'relative';
+          clock.style.opacity = '1';
+        }, 1)
+        this.name = localStorage.name;
     }
   },
   created: function(){
     this.initClock();
+    console.log(localStorage);
+    if(localStorage.name){
+      this.namePresent();
+    }
   }
 }
 </script>
@@ -115,13 +131,11 @@ export default {
   }
   .clock{
     opacity: 0;
-    transition: opacity 4s ease-in-out 1s;
   }
   .greeting{
     visibility: hidden;
     position: absolute;
     opacity: 0;
-    transition: opacity 4s ease-in-out 1s;
     font-size: 50px;
     font-weight: lighter;
     z-index: 1;
