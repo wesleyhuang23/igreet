@@ -46,10 +46,10 @@ export default {
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
-        input.style.transition = 'all 3s';
-        input.style.borderBottom = 'none';
-        input.style.zIndex = '2';
         input.style.width = (name.length * 28) + 'px';
+        input.style.transition = 'border-bottom 3s ease-in-out 1s';
+        input.style.borderBottom = '1px solid rgba(0,0,0,0)';
+        input.style.zIndex = '2';
         
         greeting.style.opacity = '1';
         greeting.style.visibility = 'visible';
@@ -115,13 +115,13 @@ export default {
   }
   .clock{
     opacity: 0;
-    transition: opacity 4s ease-in-out 2s;
+    transition: opacity 4s ease-in-out 1s;
   }
   .greeting{
     visibility: hidden;
     position: absolute;
     opacity: 0;
-    transition: opacity 4s ease-in-out 2s;
+    transition: opacity 4s ease-in-out 1s;
     font-size: 50px;
     font-weight: lighter;
     z-index: 1;
