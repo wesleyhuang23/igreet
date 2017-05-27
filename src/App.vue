@@ -1,7 +1,7 @@
 <template>
   <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
     <div class="weather">
-      <p>{{weather.temp}}</p>
+      <p v-on:click="unitChange()">{{weather.temp}}</p>
       <p>{{weather.city | uppercase }}</p>
     </div>
     <div class="content">
@@ -25,6 +25,7 @@ export default {
       weather: {
         city: '',
         temp: '',
+        unit: 'f',
       }
     }
   },
@@ -157,6 +158,15 @@ export default {
         this.weather.city = weather.name;
         this.weather.temp = Math.floor(1.8 * (weather.main.temp - 273) + 32);
       })
+    },
+    unitChange: function(){
+      if(this.weather.unit === 'f'){
+        this.weather.temp = (5/9) * (this.weather.temp - 32);
+        this.weather.unit = 'c';
+      } else if (this.weather.unit === 'c'){
+        this.weather.temp = (this.weather.temp * (9/5)) + 32;
+        this.weather.unit = 'f';
+      }
     }
   },
   filters: {
