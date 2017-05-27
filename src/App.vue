@@ -28,12 +28,13 @@ export default {
       let min = now.getMinutes();
       let day = now.getDay();
       let year = now.getFullYear();
+      console.log(hours);
       localStorage.day = day;
       localStorage.year = year;
       if(hours <= 12 && hours >= 0){
         this.hours = hours;
       } else {
-        this.house = hours - 12;
+        this.hours = hours - 12;
       }
       if(min < 10){
         this.min = '0' + min;
@@ -96,9 +97,10 @@ export default {
     },
     dateCheck: function(){
       let now = new Date()
-      let day = now.getDate();
       let year = now.getFullYear();
-      if(day !== localStorage.day || year !== localStorage.year){
+      let day = now.getDate();
+      console.log(localStorage.day, day);
+      if(year != localStorage.year){
         this.getImage();
       }
     },
@@ -107,14 +109,39 @@ export default {
         console.log(res.body);
         this.background = res.body.urls.full;
         localStorage.img = res.body.urls.full;
-        localStorage.day = new Date().getDate();
-        localStorage.year = new Date().getFullYear();
+        let now = new Date();
+        console.log(now.getDate());
+        localStorage.day = now.getDate();
+        localStorage.year = now.getFullYear();
       })
+    },
+    getLocation: function(){
+      function showLocation(position){
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+      }
+      function errorHandler(err) {
+        if(err.code == 1) {
+            alert("Error: Access is denied!");
+        }
+        else if( err.code == 2) {
+            alert("Error: Position is unavailable!");
+        }
+      }
+      function getLocation(){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showLocation, errorHandler);
+        }
+        else{
+            console.log("Sorry, browser does not support geolocation!");
+        }
+      }
+      getLocation();
     }
   },
   created: function(){
     this.initClock();
-    this.dateCheck();
     console.log(localStorage);
     if(localStorage.name){
       this.namePresent();
@@ -123,6 +150,8 @@ export default {
     if(!localStorage.img){
       this.getImage()
     }
+    this.dateCheck();
+    this.getLocation();
   }
 }
 </script>
