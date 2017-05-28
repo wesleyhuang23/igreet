@@ -203,7 +203,19 @@ export default {
         focus.id = 'hideFocus';
         check.id = 'showCheck';
         this.keyword = keyword;
+        localStorage.keyword = keyword;
       }
+    },
+    keywordPresent: function(){
+      setTimeout(function(){
+        let focus = document.getElementsByClassName('list')[0];
+        let check = document.getElementsByClassName('check')[0];
+        focus.style.transition = 'none';
+        check.style.transition = 'none';
+        focus.id = 'hideFocus';
+        check.id = 'showCheck';
+      }, 1);
+      this.keyword = localStorage.keyword;
     }
   },
   filters: {
@@ -221,8 +233,12 @@ export default {
     if(!localStorage.img){
       this.getImage()
     }
+    if(localStorage.keyword){
+      this.keywordPresent();
+    }
     this.dateCheck();
     this.getLocation();
+    
 
     //quote float logic
     setTimeout(function(){
