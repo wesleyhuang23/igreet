@@ -2,7 +2,7 @@
   <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
     <!--weather box top right-->
     <div class="weather" :alt="this.weather.condition">
-      <p v-on:click="unitChange()">{{weather.temp}}<span>{{weather.degree}}</span></p>
+      <p v-on:dblclick="unitChange()">{{weather.temp}}<span>{{weather.degree}}</span></p>
       <p>{{weather.city | uppercase }}</p>
     </div>
     <!--main center content, clock and greeting-->
@@ -10,14 +10,17 @@
       <span class="clock">{{hours}}:{{min}}</span><br>
       <h1 class="greeting">{{greeting}}, <span id="name">{{name}}</span></h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
     </div>
+    <!--focus of the day-->
     <div class="list">
       <h1>What is your main focus today?</h1><br>
       <input type="text" v-on:keyup="todayFocus(keyword, $event)" v-model="keyword"/>
     </div>
     <div class="check">
-        <input type="checkbox" id="keyword" name="subscribe" value="keyword">
-        <label for="subscribeNews">{{keyword}}</label>
-      </div>
+      <h2>Today</h2>
+      <br>
+      <input type="checkbox" id="keyword" name="subscribe" value="keyword">
+      <label for="subscribeNews">{{keyword}}<span>X</span></label>
+    </div>
     <!--quote on the bottom-->
     <div class="quote">
       <p id="quote">"{{quote.quote[quote.index]}}"</p>
@@ -139,7 +142,7 @@ export default {
       }
     },
     getImage: function(){
-      this.$http.get('https://api.unsplash.com/photos/random/?client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
+      this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
         this.background = res.body.urls.full;
         localStorage.img = res.body.urls.full;
@@ -375,14 +378,24 @@ export default {
     position: absolute;
     color: white;
     font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     transition: all 1s ease-in-out 1s;
+    // border: 1px solid green;
 
     input{
       width: auto;
+      margin-right: 20px;
+    }
+    span{
+      margin-left: 20px;
+      font-size: 17px;
+      padding: 5px;
+
+      &:hover{
+        border: 1px solid white;
+        border-radius: 50px;
+        font-size: 25px;
+      }
     }
   }
   //showing and hiding
