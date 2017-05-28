@@ -54,8 +54,8 @@ export default {
         degree: '°'
       },
       quote: {
-        author: ['Oscar Wilde'],
-        quote: ['Experience is simply the name we give our mistakes.', ],
+        author: ['Oscar Wilde', 'Norman Vincent Peale'],
+        quote: ['Experience is simply the name we give our mistakes.', 'There is real magic in enthusiasm. It spells the difference between mediocrity and accomplishment.'],
         index: 0
       },
       keyword: '',
@@ -143,6 +143,12 @@ export default {
       console.log(localStorage.day, day);
       if(year != localStorage.year){
         this.getImage();
+
+        if(this.quote.index === this.quote.author.length){
+          this.quote.index = 0;
+        } else {
+          this.quote.index++
+        }
       }
     },
     getImage: function(){
