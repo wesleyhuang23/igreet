@@ -12,8 +12,8 @@
     </div>
     <!--quote on the bottom-->
     <div class="quote">
-      <p>{{quote.quote}}</p>
-      <p>{{quote.author}}</p>
+      <p id="quote">"{{quote.quote[quote.index]}}"</p>
+      <p id="author">{{quote.author[quote.index]}}</p>
     </div>
   </section>
 </template>
@@ -39,8 +39,9 @@ export default {
         degree: '°'
       },
       quote: {
-        author: '',
-        quote: '',
+        author: ['Oscar Wilde'],
+        quote: ['Experience is simply the name we give our mistakes.', ],
+        index: 0
       }
     }
   },
@@ -68,9 +69,9 @@ export default {
       //greeting logic throughout the day
       if(hours > 0 && hours < 12){
         this.greeting = 'Good Morning';
-      } else if(hours >= 12 && hours <= 18 && min >= 0){
+      } else if(hours >= 12 && hours < 18 && min >= 0){
         this.greeting = 'Good Afternoon';
-      } else if(hours >= 18 && hours <= 24 && min >= 0){
+      } else if(hours >= 18 && hours < 24 && min >= 0){
         this.greeting = 'Good Evening';
       }
     },
@@ -185,21 +186,6 @@ export default {
         this.weather.unit = 'f';
       }
     },
-    getQuotes: function(){
-      // this.$http.jsonp('http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en').then((res) => {
-      //   let quote = JSON.parse(res.bodyText);
-      //   console.log(JSON.parse(res.bodyText));
-      // })
-      // Using YQL and JSONP
-      $.ajax({
-          url: "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en",
-          jsonp: "callback",
-          dataType: "jsonp",
-          success: function( response ) {
-              console.log( "iuahsdiuahsd", response ); // server response
-          }
-      });
-    }
   },
   filters: {
     uppercase: function(value){
@@ -218,7 +204,23 @@ export default {
     }
     this.dateCheck();
     this.getLocation();
-    this.getQuotes();
+
+    //quote float logic
+    setTimeout(function(){
+      let container = document.getElementsByClassName('quote')[0];
+      let quote = document.getElementById('quote');
+      let author = document.getElementById('author');
+      console.log(quote, author);
+      container.onmouseenter = function(){
+        quote.className = 'liftQuote';
+        author.className = 'showAuthor';
+      }
+      container.onmouseleave = function(){
+        quote.className = '';
+        author.className = '';
+      }
+    }, 100)
+    
   }
 }
 </script>
@@ -236,10 +238,12 @@ export default {
     align-items: center;
     overflow: hidden;
     background-size: cover;
+    background-position: center;
   }
   h1{
     color: white;
     display: inline-block;
+    text-shadow: 5px 5px 20px black;
   }
   input{
     font-size: 50px;
@@ -300,6 +304,24 @@ export default {
     color: white;
     text-align: center;
     position: absolute;
+    bottom: 10px;
     width: 100%;
+    font-weight: lighter;
+    p{
+      transition: all 0.5s;
+    }
+
+    p:last-child{
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.5s ease-in-out;
+    }
+  }
+  .showAuthor{
+    opacity: 1 !important;
+    transform: translateY(-10px) !important;
+  }
+  .liftQuote{
+    transform: translateY(-10px);
   }
 </style>
