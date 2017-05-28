@@ -10,6 +10,14 @@
       <span class="clock">{{hours}}:{{min}}</span><br>
       <h1 class="greeting">{{greeting}}, <span id="name">{{name}}</span></h1><input type="text" placeholder="name" v-model="name" v-on:keyup="submitName(name, $event)"/>
     </div>
+    <div class="list">
+      <h1>What is your main focus today?</h1><br>
+      <input type="text" v-on:keyup="todayFocus(keyword, $event)" v-model="keyword"/>
+    </div>
+    <div class="check">
+        <input type="checkbox" id="keyword" name="subscribe" value="keyword">
+        <label for="subscribeNews">{{keyword}}</label>
+      </div>
     <!--quote on the bottom-->
     <div class="quote">
       <p id="quote">"{{quote.quote[quote.index]}}"</p>
@@ -42,7 +50,8 @@ export default {
         author: ['Oscar Wilde'],
         quote: ['Experience is simply the name we give our mistakes.', ],
         index: 0
-      }
+      },
+      keyword: '',
     }
   },
   methods: {
@@ -186,6 +195,16 @@ export default {
         this.weather.unit = 'f';
       }
     },
+    todayFocus: function(keyword, event){
+      if(event.keyCode == 13){
+        console.log(keyword);
+        let focus = document.getElementsByClassName('list')[0];
+        let check = document.getElementsByClassName('check')[0];
+        focus.id = 'hideFocus';
+        check.id = 'showCheck';
+        this.keyword = keyword;
+      }
+    }
   },
   filters: {
     uppercase: function(value){
@@ -264,7 +283,7 @@ export default {
     
     span{
       color: white;
-      font-size: 200px;
+      font-size: 190px;
       text-shadow: 3px 3px 30px black;
     }
     a{
@@ -312,16 +331,61 @@ export default {
     }
 
     p:last-child{
+      font-size: 12px;
       opacity: 0;
       transform: translateY(-20px);
       transition: all 0.5s ease-in-out;
     }
   }
+  .list{
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    bottom: 150px;
+    transition: all 1s ease-in-out;
+
+    h1{
+      font-size: 30px;
+      font-weight: lighter;
+    }
+    input{
+      display: inline-block;
+      width: 350px;
+      font-size: 30px;
+    }
+  }
+  .check{
+    opacity: 0;
+    position: absolute;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    transition: all 1s ease-in-out 1s;
+
+    input{
+      width: auto;
+    }
+  }
+  //showing and hiding
   .showAuthor{
     opacity: 1 !important;
     transform: translateY(-10px) !important;
   }
   .liftQuote{
     transform: translateY(-10px);
+  }
+  #hideFocus{
+    opacity: 0;
+    position: absolute;
+  }
+  #showCheck{
+    opacity: 1;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    bottom: 150px;
   }
 </style>
