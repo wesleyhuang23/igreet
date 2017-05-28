@@ -19,7 +19,7 @@
       <h2>Today</h2>
       <br>
       <input type="checkbox" id="keyword" name="subscribe" value="keyword">
-      <label for="subscribeNews">{{keyword}}<span>X</span></label>
+      <label for="subscribeNews">{{keyword}}<span id="delete">X</span></label>
     </div>
     <!--quote on the bottom-->
     <div class="quote">
@@ -252,6 +252,7 @@ export default {
 
     //quote float logic
     setTimeout(function(){
+      //logic to add event listeners to quote
       let container = document.getElementsByClassName('quote')[0];
       let quote = document.getElementById('quote');
       let author = document.getElementById('author');
@@ -263,6 +264,20 @@ export default {
       container.onmouseleave = function(){
         quote.className = '';
         author.className = '';
+      }
+      //logic to add event listener to show and hide checkbox and delete
+      let checkContainer = document.getElementsByClassName('check')[0];
+      let checkbox = document.getElementById('keyword');
+      let remove = document.getElementById('delete');
+      checkbox.style.transition = 'all 0.1s ease-in-out';
+      remove.style.transition = 'all 0.1s ease-in-out';
+      checkContainer.onmouseenter = function(){
+        checkbox.style.opacity = '1';
+        remove.style.opacity = '1';
+      }
+      checkContainer.onmouseleave = function(){
+        checkbox.style.opacity = '0';
+        remove.style.opacity = '0';
       }
     }, 100)
     
