@@ -41,7 +41,13 @@ export default {
       name: '',
       spaces: '',
       greeting: 'Good Morning',
-      background: localStorage.img,
+      background: {
+        img: localStorage.img,
+        lat: '',
+        lng: '',
+        name: '',
+        location: '',
+      },
       weather: {
         city: '',
         temp: '',
@@ -142,10 +148,11 @@ export default {
       }
     },
     getImage: function(){
-      this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
+      this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&orientation=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
         this.background = res.body.urls.full;
         localStorage.img = res.body.urls.full;
+        localStorage.photoBy = res.body.user.name;
         let now = new Date();
         console.log(now.getDate());
         localStorage.day = now.getDate();
@@ -281,7 +288,7 @@ export default {
   h1{
     color: white;
     display: inline-block;
-    text-shadow: 5px 5px 20px black;
+    // text-shadow: 5px 5px 20px black;
   }
   input{
     font-size: 50px;
@@ -303,7 +310,7 @@ export default {
     span{
       color: white;
       font-size: 190px;
-      text-shadow: 3px 3px 30px black;
+      // text-shadow: 3px 3px 30px black;
     }
     a{
       opacity: 0;
@@ -346,7 +353,7 @@ export default {
     width: 100%;
     font-weight: lighter;
     p{
-      transition: all 0.5s;
+      transition: all 0.2s;
     }
 
     p:last-child{
@@ -401,7 +408,7 @@ export default {
   //showing and hiding
   .showAuthor{
     opacity: 1 !important;
-    transform: translateY(-10px) !important;
+    transform: translateY(-8px) !important;
   }
   .liftQuote{
     transform: translateY(-10px);
