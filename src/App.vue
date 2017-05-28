@@ -1,5 +1,5 @@
 <template>
-  <section v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
+  <section v-bind:style="{ backgroundImage: 'url(' + background.img + ')' }">
     <!--weather box top right-->
     <div class="weather" :alt="this.weather.condition">
       <p v-on:dblclick="unitChange()">{{weather.temp}}<span>{{weather.degree}}</span></p>
@@ -19,7 +19,7 @@
       <h2>Today</h2>
       <br>
       <input type="checkbox" id="keyword" name="subscribe" value="keyword">
-      <label for="subscribeNews">{{keyword}}<span id="delete">X</span></label>
+      <label for="subscribeNews">{{keyword}}<div id="delete" v-on:click="removeFocus()">&#215;</div></label>
     </div>
     <!--quote on the bottom-->
     <div class="quote">
@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   name: 'app',
   data () {
@@ -249,7 +247,6 @@ export default {
     this.dateCheck();
     this.getLocation();
     
-
     //quote float logic
     setTimeout(function(){
       //logic to add event listeners to quote
@@ -273,7 +270,7 @@ export default {
       remove.style.transition = 'all 0.1s ease-in-out';
       checkContainer.onmouseenter = function(){
         checkbox.style.opacity = '1';
-        remove.style.opacity = '1';
+        remove.style.opacity = '0.6';
       }
       checkContainer.onmouseleave = function(){
         checkbox.style.opacity = '0';
@@ -347,6 +344,8 @@ export default {
     top: 10px;
     right: 10px;
     color: white;
+    user-select: none;
+    cursor: default;
 
     p:last-child{
       font-size: 10px;
@@ -408,15 +407,18 @@ export default {
       width: auto;
       margin-right: 20px;
     }
-    span{
+    #delete{
       margin-left: 20px;
       font-size: 17px;
-      padding: 5px;
+      display: inline-block;
+      height: 25px;
+      width: 25px;
 
       &:hover{
         border: 1px solid white;
         border-radius: 50px;
-        font-size: 25px;
+        opacity: 1 !important;
+        font-size: 18px;
       }
     }
   }
