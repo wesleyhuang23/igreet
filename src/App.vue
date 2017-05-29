@@ -26,6 +26,10 @@
       <p id="quote">"{{quote.quote[quote.index]}}"</p>
       <p id="author">{{quote.author[quote.index]}}</p>
     </div>
+    <!--photo by credits-->
+    <div class="photo-author">
+      <p>photo by {{photoBy}}</p>
+    </div>
   </section>
 </template>
 
@@ -59,6 +63,7 @@ export default {
         index: 0
       },
       keyword: '',
+      photoBy: localStorage.photoBy
     }
   },
   methods: {
@@ -411,6 +416,14 @@ export default {
         font-size: 18px;
       }
     }
+  }
+  .photo-author{
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    color: white;
+    font-weight: lighter;
+    font-size: 10px;
   }
   //showing and hiding
   .showAuthor{
