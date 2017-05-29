@@ -64,7 +64,7 @@ export default {
         index: 0
       },
       keyword: '',
-      photoBy: localStorage.photoBy
+      photoBy: localStorage.photoBy,
     }
   },
   methods: {
@@ -150,7 +150,7 @@ export default {
       }
     },
     getImage: function(){
-      this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&orientation=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
+      this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&featured&orientation=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
         localStorage.img = res.body.urls.full;
         
@@ -163,6 +163,7 @@ export default {
         console.log(this.background);
         localStorage.year = now.getFullYear();
         this.background.img = localStorage.img;
+        this.photoBy = localStorage.photoBy;
         this.show = true;
       })
     },
@@ -432,12 +433,14 @@ export default {
       height: 25px;
       width: 25px;
       cursor: pointer;
+      box-sizing: border-box;
+      transition: all 1s ease-in-out 0.4s;
 
       &:hover{
         border: 1px solid white;
         border-radius: 50px;
         opacity: 1 !important;
-        font-size: 18px;
+        transform: scale(1.1);
       }
     }
   }
