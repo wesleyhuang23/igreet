@@ -28,7 +28,7 @@
     </div>
     <!--photo by credits-->
     <div class="photo-author">
-      <p>photo by {{photoBy}}</p>
+      <p v-show="show">photo by {{photoBy}}</p>
     </div>
   </section>
 </template>
@@ -38,6 +38,7 @@ export default {
   name: 'app',
   data () {
     return {
+      show: false,
       hours: '',
       min: '',
       name: '',
@@ -138,7 +139,7 @@ export default {
       let now = new Date()
       let year = now.getFullYear();
       let day = now.getDate();
-      console.log(localStorage.day, day);
+      console.log(day);
       if(year != localStorage.year){
         this.getImage();
 
@@ -151,6 +152,7 @@ export default {
         this.background = res.body.urls.full;
         localStorage.img = res.body.urls.full;
         localStorage.photoBy = res.body.user.name;
+        
         let now = new Date();
         console.log(now.getDate());
         localStorage.day = now.getDate();
@@ -179,14 +181,14 @@ export default {
       getLocation();
     },
     getWeather: function(lat, long, newThis){
-      console.log(lat, long)
+      // console.log(lat, long)
       newThis.$http.get(`http://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
         console.log(JSON.parse(res.bodyText));
         let weather = JSON.parse(res.bodyText);
         this.weather.city = weather.name;
         this.weather.temp = Math.floor(1.8 * (weather.main.temp - 273) + 32);
         this.weather.condition = weather.weather[0].description;
-        console.log(this.weather.condition);
+        // console.log(this.weather.condition);
       })
     },
     unitChange: function(){
@@ -200,7 +202,7 @@ export default {
     },
     todayFocus: function(keyword, event){
       if(event.keyCode == 13){
-        console.log(keyword);
+        // console.log(keyword);
         let focus = document.getElementsByClassName('list')[0];
         let check = document.getElementsByClassName('check')[0];
         check.style.transition = 'all 1s ease-in-out 1s';
@@ -249,6 +251,9 @@ export default {
     if(localStorage.keyword){
       this.keywordPresent();
     }
+    if(localStorage.photoBy){
+      this.show = true;
+    }
     this.dateCheck();
     this.getLocation();
     
@@ -258,7 +263,7 @@ export default {
       let container = document.getElementsByClassName('quote')[0];
       let quote = document.getElementById('quote');
       let author = document.getElementById('author');
-      console.log(quote, author);
+      // console.log(quote, author);
       container.onmouseenter = function(){
         quote.className = 'liftQuote';
         author.className = 'showAuthor';
@@ -418,6 +423,7 @@ export default {
       display: inline-block;
       height: 25px;
       width: 25px;
+      cursor: pointer;
 
       &:hover{
         border: 1px solid white;
