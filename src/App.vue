@@ -73,10 +73,10 @@ export default {
       let now = new Date()
       let hours = now.getHours();
       let min = now.getMinutes();
-      let day = now.getDay();
+      let date = now.getDate();
       let year = now.getFullYear();
       // console.log(hours);
-      localStorage.day = day;
+      localStorage.date = date;
       localStorage.year = year;
 
       hours <= 12 && hours >= 0 ? this.hours = hours : this.hours = hours - 12
@@ -141,11 +141,10 @@ export default {
     dateCheck: function(){
       let now = new Date()
       let year = now.getFullYear();
-      let day = now.getDate();
-      console.log(day);
-      if(year != localStorage.year){
+      let date = now.getDate();
+      console.log(localStorage.date, date);
+      if(year != localStorage.year || date != localStorage.date){
         this.getImage();
-
         this.quote.index === this.quote.author.length ? this.quote.index = 0 : this.quote.index++;
       }
     },
@@ -158,7 +157,7 @@ export default {
         
         let now = new Date();
         console.log(now.getDate());
-        localStorage.day = now.getDate();
+        localStorage.date = now.getDate().toString();
         console.log(localStorage);
         console.log(this.background);
         localStorage.year = now.getFullYear();

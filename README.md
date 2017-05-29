@@ -1,4 +1,4 @@
-# igreet
+# iGreet
 
 > a clone of momentum
 
