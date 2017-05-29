@@ -203,11 +203,21 @@ export default {
         console.log(keyword);
         let focus = document.getElementsByClassName('list')[0];
         let check = document.getElementsByClassName('check')[0];
+        check.style.transition = 'all 1s ease-in-out 1s';
         focus.id = 'hideFocus';
         check.id = 'showCheck';
         this.keyword = keyword;
         localStorage.keyword = keyword;
       }
+    },
+    removeFocus: function(){
+      let check = document.getElementsByClassName('check')[0];
+      let focus = document.getElementsByClassName('list')[0];
+      check.style.transition = 'none';
+      focus.style.transition = 'all 1s ease-in-out';
+      focus.id = '';
+      check.id = '';
+      this.keyword = '';
     },
     keywordPresent: function(){
       setTimeout(function(){
