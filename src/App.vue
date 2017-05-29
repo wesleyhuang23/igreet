@@ -237,6 +237,7 @@ export default {
       focus.id = '';
       check.id = '';
       this.keyword = '';
+      delete localStorage.keyword;
     },
     keywordPresent: function(){
       setTimeout(function(){
@@ -248,6 +249,13 @@ export default {
         check.id = 'showCheck';
       }, 1);
       this.keyword = localStorage.keyword;
+    },
+    noKeyword: function(){
+      setTimeout(function(){
+        let focus = document.getElementsByClassName('list')[0];
+        focus.style.opacity = '1';
+        focus.id = '';
+      }, 1);
     }
   },
   filters: {
@@ -264,9 +272,7 @@ export default {
     if(!localStorage.img){
       this.getImage()
     }
-    if(localStorage.keyword){
-      this.keywordPresent();
-    }
+    localStorage.keyword ? this.keywordPresent() : this.noKeyword();
     localStorage.photoBy ? this.show = true : this.show = false;
     this.dateCheck();
     this.getLocation();
@@ -412,6 +418,7 @@ export default {
     h1{
       font-size: 30px;
       font-weight: lighter;
+      user-select: none;
     }
     input{
       display: inline-block;
@@ -432,6 +439,9 @@ export default {
       width: auto;
       margin-right: 20px;
     }
+    #keyword{
+      opacity: 0;
+    }
     #delete{
       margin-left: 20px;
       font-size: 17px;
@@ -440,6 +450,7 @@ export default {
       width: 25px;
       cursor: pointer;
       box-sizing: border-box;
+      opacity: 0;
       transition: all 1s ease-in-out 0.4s;
 
       &:hover{
@@ -457,6 +468,7 @@ export default {
     color: white;
     font-weight: lighter;
     font-size: 10px;
+    z-index: 5;
   }
   //showing and hiding
   .showAuthor{

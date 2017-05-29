@@ -20,6 +20,8 @@ export default {
         position: absolute;
         bottom: 25px;
         right: 20px;
+        z-index: 5;
+        user-select: none;
 
 
         span{
