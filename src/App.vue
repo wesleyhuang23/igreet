@@ -102,6 +102,7 @@ export default {
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
         let nameTag = document.getElementById('name');
+        let list = document.getElementsByClassName('list')[0];
         nameTag.style.display = 'none';
         input.style.width = (name.length * 28) + 'px';
         input.style.transition = 'border-bottom 3s ease-in-out 1s';
@@ -110,6 +111,8 @@ export default {
         greeting.style.opacity = '1';
         greeting.style.visibility = 'visible';
         greeting.style.position = 'relative';
+        list.style.transition = 'opacity 4s ease-in-out 1s';
+        list.style.opacity = '1';
         clock.style.transition = 'opacity 4s ease-in-out 1s';
         clock.style.opacity = '1';
         localStorage.name = name;
@@ -149,14 +152,18 @@ export default {
     getImage: function(){
       this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&orientation=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
-        this.background = res.body.urls.full;
         localStorage.img = res.body.urls.full;
+        
         localStorage.photoBy = res.body.user.name;
         
         let now = new Date();
         console.log(now.getDate());
         localStorage.day = now.getDate();
+        console.log(localStorage);
+        console.log(this.background);
         localStorage.year = now.getFullYear();
+        this.background.img = localStorage.img;
+        this.show = true;
       })
     },
     getLocation: function(){
@@ -206,6 +213,8 @@ export default {
         let focus = document.getElementsByClassName('list')[0];
         let check = document.getElementsByClassName('check')[0];
         check.style.transition = 'all 1s ease-in-out 1s';
+        focus.style.transition = 'all 1s ease-in-out';
+        focus.style.opacity = '0';
         focus.id = 'hideFocus';
         check.id = 'showCheck';
         this.keyword = keyword;
@@ -217,6 +226,7 @@ export default {
       let focus = document.getElementsByClassName('list')[0];
       check.style.transition = 'none';
       focus.style.transition = 'all 1s ease-in-out';
+      focus.style.opacity = '1';
       focus.id = '';
       check.id = '';
       this.keyword = '';
@@ -240,7 +250,6 @@ export default {
   },
   created: function(){
     this.initClock();
-    console.log(localStorage);
     if(localStorage.name){
       this.namePresent();
       this.setName();
@@ -251,9 +260,7 @@ export default {
     if(localStorage.keyword){
       this.keywordPresent();
     }
-    if(localStorage.photoBy){
-      this.show = true;
-    }
+    localStorage.photoBy ? this.show = true : this.show = false;
     this.dateCheck();
     this.getLocation();
     
@@ -393,6 +400,7 @@ export default {
     width: 100%;
     bottom: 150px;
     transition: all 1s ease-in-out;
+    opacity: 0;
 
     h1{
       font-size: 30px;
