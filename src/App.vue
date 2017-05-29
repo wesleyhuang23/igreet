@@ -97,12 +97,12 @@ export default {
         this.greeting = 'Good Evening';
       }
     },
-    initClock: function(){
+    initClock: function(){ //starts the clock
       this.updateClock();
       window.setInterval(this.updateClock, 1000);
     },
     //form logic
-    submitName: function(name, event){
+    submitName: function(name, event){ //submiting the name and officially showing the clock and focus entry
       if(event.keyCode == 13){
         console.log(name);
         let greeting = document.getElementsByClassName('greeting')[0];
@@ -125,7 +125,7 @@ export default {
         localStorage.name = name;
       }
     },
-    namePresent: function(){
+    namePresent: function(){ //checking to see if there was name present in local storage to restore previous user
         setTimeout(function(){
           let greeting = document.getElementsByClassName('greeting')[0];
           let clock = document.getElementsByClassName('clock')[0];
@@ -142,10 +142,10 @@ export default {
         }, 1)
         
     },
-    setName: function(){
+    setName: function(){ //storing the users name in local storage
       this.name = localStorage.name
     },
-    dateCheck: function(){
+    dateCheck: function(){ //reseting of certain information when date changes for quote, image and focus of the day
       let now = new Date()
       let year = now.getFullYear();
       let date = now.getDate();
@@ -153,20 +153,16 @@ export default {
       if(year != localStorage.year || date != localStorage.date){
         this.getImage();
         this.quote.index === this.quote.author.length ? this.quote.index = 0 : this.quote.index++;
+        this.removeFocus(); //resets focus if it is a new day
       }
     },
-    getImage: function(){
+    getImage: function(){ //getting image api and setting the date to compare later on weather to update image
       this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&featured&orientation=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
         console.log(res.body);
         localStorage.img = res.body.urls.full;
-        
         localStorage.photoBy = res.body.user.name;
-        
         let now = new Date();
-        console.log(now.getDate());
-        localStorage.date = now.getDate().toString();
-        console.log(localStorage);
-        console.log(this.background);
+        localStorage.date = now.getDate();
         localStorage.year = now.getFullYear();
         this.background.img = localStorage.img;
         this.photoBy = localStorage.photoBy;
@@ -174,7 +170,7 @@ export default {
       })
     },
     getLocation: function(){
-      var thisPointer = this;
+      var thisPointer = this; //having problem with block scope in accessing vue instance this creates the instance in the function
       function showLocation(position){
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
@@ -194,7 +190,7 @@ export default {
       }
       getLocation();
     },
-    getWeather: function(lat, long, newThis){
+    getWeather: function(lat, long, newThis){ //getting weather based on geolocation
       // console.log(lat, long)
       newThis.$http.get(`http://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
         console.log(JSON.parse(res.bodyText));
@@ -205,7 +201,7 @@ export default {
         // console.log(this.weather.condition);
       })
     },
-    unitChange: function(){
+    unitChange: function(){ //changes unit when double click on temp
       if(this.weather.unit === 'f'){
         this.weather.temp = Math.floor((5/9) * (this.weather.temp - 32));
         this.weather.unit = 'c';
@@ -214,7 +210,7 @@ export default {
         this.weather.unit = 'f';
       }
     },
-    todayFocus: function(keyword, event){
+    todayFocus: function(keyword, event){ //submiting the focus of the day and stores in local storage
       if(event.keyCode == 13){
         // console.log(keyword);
         let focus = document.getElementsByClassName('list')[0];
@@ -250,7 +246,7 @@ export default {
       }, 1);
       this.keyword = localStorage.keyword;
     },
-    noKeyword: function(){
+    noKeyword: function(){ //if keyword not present then remove focus
       setTimeout(function(){
         let focus = document.getElementsByClassName('list')[0];
         focus.style.opacity = '1';
@@ -361,6 +357,7 @@ export default {
   .clock{
     opacity: 0;
   }
+  //styling of the greeting
   .greeting{
     visibility: hidden;
     position: absolute;
@@ -369,6 +366,7 @@ export default {
     font-weight: lighter;
     z-index: 1;
   }
+  //styling for weather
   .weather{
     position: absolute;
     top: 10px;
@@ -389,6 +387,7 @@ export default {
       font-weight: bolder;
     }
   }
+  //styling for quote
   .quote{
     color: white;
     text-align: center;
@@ -407,6 +406,7 @@ export default {
       transition: all 0.5s ease-in-out;
     }
   }
+  //styling for focus of the day
   .list{
     text-align: center;
     position: absolute;
