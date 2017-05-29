@@ -54,8 +54,8 @@ export default {
         degree: '°'
       },
       quote: {
-        author: ['Oscar Wilde', 'Norman Vincent Peale'],
-        quote: ['Experience is simply the name we give our mistakes.', 'There is real magic in enthusiasm. It spells the difference between mediocrity and accomplishment.'],
+        author: ['Oscar Wilde', 'Norman Vincent Peale', 'Maya Angelou'],
+        quote: ['Experience is simply the name we give our mistakes.', 'There is real magic in enthusiasm. It spells the difference between mediocrity and accomplishment.', 'You may not control all the events that happen to you, but you can decide not to be reduced by them.'],
         index: 0
       },
       keyword: '',
@@ -72,16 +72,9 @@ export default {
       // console.log(hours);
       localStorage.day = day;
       localStorage.year = year;
-      if(hours <= 12 && hours >= 0){
-        this.hours = hours;
-      } else {
-        this.hours = hours - 12;
-      }
-      if(min < 10){
-        this.min = '0' + min;
-      } else {
-        this.min = min;
-      }
+
+      hours <= 12 && hours >= 0 ? this.hours = hours : this.hours = hours - 12
+      min < 10 ? this.min = '0' + min : this.min = min;
       //greeting logic throughout the day
       if(hours > 0 && hours < 12){
         this.greeting = 'Good Morning';
@@ -144,11 +137,7 @@ export default {
       if(year != localStorage.year){
         this.getImage();
 
-        if(this.quote.index === this.quote.author.length){
-          this.quote.index = 0;
-        } else {
-          this.quote.index++
-        }
+        this.quote.index === this.quote.author.length ? this.quote.index = 0 : this.quote.index++;
       }
     },
     getImage: function(){
@@ -180,12 +169,7 @@ export default {
         }
       }
       function getLocation(){
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(showLocation, errorHandler);
-        }
-        else{
-            console.log("Sorry, browser does not support geolocation!");
-        }
+        navigator.geolocation ? navigator.geolocation.getCurrentPosition(showLocation, errorHandler) : console.log("Sorry, browser does not support geolocation!");
       }
       getLocation();
     },
