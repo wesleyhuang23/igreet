@@ -30,12 +30,19 @@
     <div class="photo-author">
       <p v-show="show">photo by {{photoBy}}</p>
     </div>
+    <!--todo list-->
+    <Todo></Todo>
   </section>
 </template>
 
 <script>
+import Todo from './Todo.vue';
+
 export default {
   name: 'app',
+  components: {
+      Todo,
+  },
   data () {
     return {
       show: false,
