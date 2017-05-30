@@ -1,6 +1,11 @@
 <template>
-    <div class="todo">
-        <span>Todo</span>
+    <div>
+        <div class="todo">
+            <span>Todo</span>
+        </div>
+        <div class="todo-list">
+            <div class="graphic">☺</div>
+        </div>
     </div>
 </template>
 
@@ -34,5 +39,17 @@ export default {
                 opacity: 1;
             }
         }
+    }
+    .todo-list{
+        position: absolute;
+        bottom: 50px;
+        right: 5px;
+        width: 270px;
+        height: 170px;
+        padding: 15px;
+        background-color: rgba(255,255,255, .5);
+        background-clip: padding-box;
+        border: 3px solid transparent;
+        border-radius: 7px;
     }
 </style>
