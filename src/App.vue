@@ -31,7 +31,7 @@
       <p v-show="show">photo by {{photoBy}}</p>
     </div>
     <!--todo list-->
-    <Todo></Todo>
+    <Todo :user="this.name"></Todo>
   </section>
 </template>
 
