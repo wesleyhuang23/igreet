@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="todo">
+        <div class="todo" v-on:click="showTodo()">
             <span>Todo</span>
         </div>
         <div class="todo-content">
@@ -34,6 +34,16 @@ export default {
         }
     },
     methods: {
+        showTodo: function(){
+            let todo = document.getElementsByClassName('todo-content')[0];
+            if(todo.style.opacity == '0'){
+                todo.style.opacity = '1';
+                todo.style.transform = 'translateY(-5px)';
+            } else if(todo.style.opacity = '1') {
+                todo.style.opacity = '0';
+                todo.style.transform = 'translateY(5px)';
+            }
+        },
         addTodo: function(todo, event){
             if(event.keyCode == 13){
                 this.todoItems.push(todo);
@@ -85,6 +95,9 @@ export default {
         border-radius: 7px;
         text-align: center;
         color: white;
+        opacity: 0;
+        transform: translateY(5px);
+        transition: all 0.4s;
 
         .list-placeholder{
             height: 150px;
