@@ -6,7 +6,7 @@
         <div class="todo-content">
             <ol v-if="show" class="todo-list">
                 <li v-for="todo in todoItems">
-                    <input type="checkbox" id="todoItem"><label for="subscribeNews">{{todo}}</label><div id="deleteTodo" v-on:click="removeFocus()">&#215;</div>
+                    <input type="checkbox" id="todoItem"><label for="subscribeNews">{{todo}}</label><div id="deleteTodo" v-on:click="removeTodo(todoItems.indexOf(todo))"><div>&#215;</div></div>
                 </li>
             </ol>
             <div v-else class="list-placeholder">    
@@ -40,6 +40,12 @@ export default {
                 this.show = true;
                 this.todos = '';
                 // console.log(this.todoItems);
+            }
+        },
+        removeTodo: function(todoIndex){
+            this.todoItems.splice(todoIndex, 1);
+            if(this.todoItems.length == 0){
+                this.show = false;
             }
         }
     }
@@ -136,9 +142,23 @@ export default {
                 }
 
                 #deleteTodo{
-                    margin-top: -19.5px;
+                    margin-left: 250px;
+                    margin-top: -18px;
                     position: relative;
                     text-align: right;
+                    cursor: pointer;
+
+                    div{
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        justify-content: center;
+
+                        &:hover{
+                            border: 1px solid white;
+                            border-radius: 50px;
+                        }
+                    }
                 }
             }
         }
