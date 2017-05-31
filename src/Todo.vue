@@ -4,14 +4,21 @@
             <span>Todo</span>
         </div>
         <div class="todo-content">
-            <div class="graphic">☺</div>
-            <div class="title">Nothing to do</div>
-            <div class="description">Add a todo to get started, {{user}}</div>
-            <input type="text" placeholder="New Todo"/>
+            <ol v-if="show" class="todo-list">
+                <li v-for="todo in todoItems">
+                    <input type="checkbox" id="todoItem">
+                    <label for="subscribeNews">{{todo}}<div id="deleteTodo" v-on:click="removeFocus()">&#215;</div></label>
+                </li>
+            </ol>
+            <div v-else class="list-placeholder">    
+                <div class="graphic">☺</div>
+                <div class="title">Nothing to do</div>
+                <div class="description">Add a todo to get started, {{user}}</div>
+            </div>
+            <input type="text" placeholder="New Todo" v-on:keyup="addTodo(todos, $event)" v-model="todos"/>
             <div class="action">
                 <span class="completed">Completed today</span>
             </div>
-            <ol class="todo-list"></ol>
         </div>
     </div>
 </template>
@@ -22,9 +29,20 @@ export default {
     props: ['user'],
     data () {
         return {
-            
+            todoItems: [],
+            show: false,
+            todos:''
         }
     },
+    methods: {
+        addTodo: function(todo, event){
+            if(event.keyCode == 13){
+                this.todoItems.push(todo);
+                this.show = true;
+                // console.log(this.todoItems);
+            }
+        }
+    }
 }
 </script>
 
@@ -53,7 +71,7 @@ export default {
         bottom: 50px;
         right: 2px;
         width: 270px;
-        height: 170px;
+        height: auto;
         padding: 15px;
         background-color: rgba(0,0,0, .8);
         background-clip: padding-box;
@@ -62,6 +80,13 @@ export default {
         text-align: center;
         color: white;
 
+        .list-placeholder{
+            height: 170px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+        }
         .graphic{
             font-size: 60px;
         }
@@ -82,6 +107,15 @@ export default {
             font-size: 15px;
             text-align: left;
             font-weight: bold;
+        }
+        ol{
+            list-style: none;
+
+            li{
+                #deleteTodo{
+                    display: inline-block;
+                }
+            }
         }
     }
     .action{
