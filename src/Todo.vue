@@ -118,8 +118,8 @@ export default {
                 padding-top: 5px;
                 padding-bottom: 5px;
                 // border: 1px solid green;
-                text-align: left;
-                width: auto;
+                text-align: justify;
+                width: 117%;
                 margin-left: -40px;
 
                 input{
@@ -136,10 +136,9 @@ export default {
                 }
 
                 #deleteTodo{
-                    display: inline-block;
-                    position: absolute;
-                    top: 6px;
-                    right: 0px;
+                    margin-top: -19.5px;
+                    position: relative;
+                    text-align: right;
                 }
             }
         }
