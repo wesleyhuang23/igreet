@@ -6,8 +6,7 @@
         <div class="todo-content">
             <ol v-if="show" class="todo-list">
                 <li v-for="todo in todoItems">
-                    <input type="checkbox" id="todoItem">
-                    <label for="subscribeNews">{{todo}}<div id="deleteTodo" v-on:click="removeFocus()">&#215;</div></label>
+                    <input type="checkbox" id="todoItem"><label for="subscribeNews">{{todo}}</label><div id="deleteTodo" v-on:click="removeFocus()">&#215;</div>
                 </li>
             </ol>
             <div v-else class="list-placeholder">    
@@ -16,7 +15,7 @@
                 <div class="description">Add a todo to get started, {{user}}</div>
             </div>
             <input type="text" placeholder="New Todo" v-on:keyup="addTodo(todos, $event)" v-model="todos"/>
-            <div class="action">
+            <div v-show="!show" class="action">
                 <span class="completed">Completed today</span>
             </div>
         </div>
@@ -39,6 +38,7 @@ export default {
             if(event.keyCode == 13){
                 this.todoItems.push(todo);
                 this.show = true;
+                this.todos = '';
                 // console.log(this.todoItems);
             }
         }
@@ -81,7 +81,7 @@ export default {
         color: white;
 
         .list-placeholder{
-            height: 170px;
+            height: 150px;
             display: flex;
             align-items: center;
             flex-direction: column;
@@ -110,10 +110,36 @@ export default {
         }
         ol{
             list-style: none;
+            position: relative;
+            // border: 1px solid red;
+            margin-bottom: 25px;
 
             li{
+                padding-top: 5px;
+                padding-bottom: 5px;
+                // border: 1px solid green;
+                text-align: left;
+                width: auto;
+                margin-left: -40px;
+
+                input{
+                    position: relative;
+                    display: inline-block;
+                    bottom: 0;
+                    left: 0;
+                    width: 10px;
+                    top: 2.5px;
+                }
+
+                label{
+                    margin-left: 8px;
+                }
+
                 #deleteTodo{
                     display: inline-block;
+                    position: absolute;
+                    top: 6px;
+                    right: 0px;
                 }
             }
         }
