@@ -260,6 +260,7 @@ export default {
     }
   },
   created: function(){
+    this.dateCheck(); //check date first or else init clock will overwrite old time in local storage
     this.initClock();
     if(localStorage.name){
       this.namePresent();
@@ -270,9 +271,8 @@ export default {
     }
     localStorage.keyword ? this.keywordPresent() : this.noKeyword();
     localStorage.photoBy ? this.show = true : this.show = false;
-    this.dateCheck();
-    this.getLocation();
     
+    this.getLocation();
     //quote float logic
     setTimeout(function(){
       //logic to add event listeners to quote

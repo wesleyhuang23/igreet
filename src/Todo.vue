@@ -34,7 +34,7 @@ export default {
         }
     },
     methods: {
-        showTodo: function(){
+        showTodo: function(){ //hide and show effect of todo
             let todo = document.getElementsByClassName('todo-content')[0];
             if(todo.style.opacity == '0'){
                 todo.style.opacity = '1';
@@ -58,6 +58,9 @@ export default {
                 this.show = false;
             }
         }
+    },
+    created: function(){
+
     }
 }
 </script>
