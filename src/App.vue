@@ -35,7 +35,7 @@
     <!--search-->
     <div class="search" v-on:click="showSearch()">
       <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/21336-200.png"/>
-      <input type="text"/>
+      <input type="text" v-on:keyup="search(searchTerm, $event)" v-model="searchTerm"/>
     </div>
   </section>
 </template>
@@ -56,6 +56,7 @@ export default {
       name: '',
       spaces: '',
       greeting: 'Good Morning',
+      searchTerm: '',
       background: {
         img: localStorage.img,
         lat: '',
@@ -270,6 +271,11 @@ export default {
       //   search.id = '';
       // })
 
+    },
+    search: function(term, e){
+      if(e.keyCode == 13){
+        window.location.href = 'https://www.google.com/search?q=' + term;
+      }
     }
   },
   filters: {
