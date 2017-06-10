@@ -59,7 +59,7 @@ export default {
                 this.show = false;
             }
             localStorage.todos = JSON.stringify(this.todoItems);
-        }
+        },
     },
     created: function(){
         setTimeout(()=>{

@@ -32,6 +32,11 @@
     </div>
     <!--todo list-->
     <Todo :user="this.name"></Todo>
+    <!--search-->
+    <div class="search" v-on:click="showSearch()">
+      <img src="https://d30y9cdsu7xlg0.cloudfront.net/png/21336-200.png"/>
+      <input type="text"/>
+    </div>
   </section>
 </template>
 
@@ -66,8 +71,8 @@ export default {
         degree: '°'
       },
       quote: {
-        author: ['Oscar Wilde', 'Norman Vincent Peale', 'Maya Angelou'],
-        quote: ['Experience is simply the name we give our mistakes.', 'There is real magic in enthusiasm. It spells the difference between mediocrity and accomplishment.', 'You may not control all the events that happen to you, but you can decide not to be reduced by them.'],
+        author: ['Oscar Wilde', 'Norman Vincent Peale', 'Maya Angelou', 'Eleanor Roosevelt'],
+        quote: ['Experience is simply the name we give our mistakes.', 'There is real magic in enthusiasm. It spells the difference between mediocrity and accomplishment.', 'You may not control all the events that happen to you, but you can decide not to be reduced by them.', 'Do the thing you think you cannot do.'],
         index: 0
       },
       keyword: '',
@@ -252,6 +257,11 @@ export default {
         focus.style.opacity = '1';
         focus.id = '';
       }, 1);
+    },
+    showSearch: function(){
+      let search = document.getElementsByClassName('search')[0];
+      search.style.transition = 'all 1s ease-in-out';
+      search.style.borderBottom = '2px solid white';
     }
   },
   filters: {
@@ -469,6 +479,32 @@ export default {
     font-weight: lighter;
     font-size: 10px;
     z-index: 5;
+  }
+  .search{
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    width: 180px;
+    height: 30px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    img{
+      height: 22px;
+      width: 22px;
+      filter: invert(100%);
+      opacity: 0.7;
+    }
+    input{
+      border: none;
+      height: 20px;
+      width: 150px;
+      text-align: left;
+      font-size: 20px;
+      margin-left: 10px;
+    }
   }
   //showing and hiding
   .showAuthor{
