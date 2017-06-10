@@ -67,7 +67,6 @@ export default {
                 this.show = true;
             }
             this.todoItems = JSON.parse(localStorage.todos);
-            console.log(this.todoItems);
         }, 3000)
         
     }

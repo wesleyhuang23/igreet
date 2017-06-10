@@ -110,7 +110,6 @@ export default {
     //form logic
     submitName: function(name, event){ //submiting the name and officially showing the clock and focus entry
       if(event.keyCode == 13){
-        console.log(name);
         let greeting = document.getElementsByClassName('greeting')[0];
         let clock = document.getElementsByClassName('clock')[0];
         let input = document.getElementsByTagName('input')[0];
@@ -164,7 +163,7 @@ export default {
     },
     getImage: function(){ //getting image api and setting the date to compare later on weather to update image
       this.$http.get('https://api.unsplash.com/photos/random/?query=landscape&featured&orientation=landscape&client_id=f0ac1eeb93ba63a48290fc82b431790f5f237f97ca1c76cf7e6206dc3b7b3385').then((res) => {
-        console.log(res.body);
+        // console.log(res.body);
         localStorage.img = res.body.urls.full;
         localStorage.photoBy = res.body.user.name;
         let now = new Date();
@@ -199,7 +198,7 @@ export default {
     getWeather: function(lat, long, newThis){ //getting weather based on geolocation
       // console.log(lat, long)
       newThis.$http.get(`http://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
-        console.log(JSON.parse(res.bodyText));
+        // console.log(JSON.parse(res.bodyText));
         let weather = JSON.parse(res.bodyText);
         this.weather.city = weather.name;
         this.weather.temp = Math.floor(1.8 * (weather.main.temp - 273) + 32);
@@ -260,7 +259,6 @@ export default {
       }, 1);
     },
     showSearch: function(){
-      console.log('s');
       let search = document.getElementsByClassName('search')[0];
       search.style.transition = 'all 1s';
       search.id = 'showSearch';
