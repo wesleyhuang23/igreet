@@ -197,7 +197,7 @@ export default {
     },
     getWeather: function(lat, long, newThis){ //getting weather based on geolocation
       // console.log(lat, long)
-      newThis.$http.get(`http://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
+      newThis.$http.get(`https://api.openweathermap.org/data/2.5/weather?lat=`+ lat +`&lon=`+ long +`&appid=25e741fab3a58394045b709c0392a364`).then((res) => {
         // console.log(JSON.parse(res.bodyText));
         let weather = JSON.parse(res.bodyText);
         this.weather.city = weather.name;
