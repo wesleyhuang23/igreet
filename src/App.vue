@@ -259,9 +259,17 @@ export default {
       }, 1);
     },
     showSearch: function(){
+      console.log('s');
       let search = document.getElementsByClassName('search')[0];
-      search.style.transition = 'all 1s ease-in-out';
-      search.style.borderBottom = '2px solid white';
+      search.style.transition = 'all 1s';
+      search.id = 'showSearch';
+
+      // let section = document.getElementsByTagName('section')[0];
+      // section.addEventListener('click', function(){
+      //   let search = document.getElementsByClassName('search')[0];
+      //   search.id = '';
+      // })
+
     }
   },
   filters: {
@@ -312,6 +320,7 @@ export default {
         checkbox.style.opacity = '0';
         remove.style.opacity = '0';
       }
+      
     }, 100)
     
   }
@@ -490,6 +499,8 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
+    z-index: 2;
+    border-bottom: 2px solid rgba(255,255,255,0);
 
     img{
       height: 22px;
@@ -524,5 +535,8 @@ export default {
     position: absolute;
     width: 100%;
     bottom: 150px;
+  }
+  #showSearch{
+    border-bottom: 2px solid rgba(255,255,255,1);
   }
 </style>
