@@ -264,13 +264,19 @@ export default {
       let search = document.getElementsByClassName('search')[0];
       search.style.transition = 'all 1s';
       search.id = 'showSearch';
+      let section = document.getElementsByTagName('section')[0];
 
-      // let section = document.getElementsByTagName('section')[0];
-      // section.addEventListener('click', function(){
-      //   let search = document.getElementsByClassName('search')[0];
-      //   search.id = '';
-      // })
+      var a = function() {
+        search.style.transition = 'none';
+        search.id = '';
+        setTimeout(function(){
+          section.removeEventListener('click', a);
+        }, 100)
+      }
 
+      setTimeout(function(){
+        section.addEventListener('click', a)
+      }, 100);
     },
     search: function(term, e){
       if(e.keyCode == 13){
