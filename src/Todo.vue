@@ -49,6 +49,7 @@ export default {
                 this.todoItems.push(todo);
                 this.show = true;
                 this.todos = '';
+                localStorage.todos = JSON.stringify(this.todoItems);
                 // console.log(this.todoItems);
             }
         },
@@ -57,10 +58,18 @@ export default {
             if(this.todoItems.length == 0){
                 this.show = false;
             }
+            localStorage.todos = JSON.stringify(this.todoItems);
         }
     },
     created: function(){
-
+        setTimeout(()=>{
+            if(localStorage.todos.length > 2){
+                this.show = true;
+            }
+            this.todoItems = JSON.parse(localStorage.todos);
+            console.log(this.todoItems);
+        }, 3000)
+        
     }
 }
 </script>
